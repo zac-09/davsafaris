@@ -6,7 +6,7 @@ import { AppError } from "./utils/error";
 const dotenv = config();
 
 const startApp = async () => {
-  const port = 3000;
+  const port = process.env.PORT || 3000;
   const MONGO_URI = process.env.DB;
   if (!MONGO_URI) {
     return new AppError("mongo URI not defined", 400);
@@ -17,7 +17,7 @@ const startApp = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log("succesfully connected to Mongo")
+    console.log("succesfully connected to Mongo");
   } catch (err) {
     console.log(`An error occured: ${JSON.stringify(err)}`);
   }
