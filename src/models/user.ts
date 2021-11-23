@@ -13,24 +13,42 @@ export interface UserDoc extends mongoose.Document {
   password: string;
   role: string;
   correctPassword: Function;
+  passwordChangedAt: Date;
+  passwordResetToken: String;
+  passwordResetExpires: Date;
+  createdAt: Date;
+  changedPasswordAfter: Function;
 }
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: [true, "a user must have an email"],
-    unique: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: [true, "a user must have an email"],
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, "a user must have a password"],
+    },
+    role: {
+      type: String,
+      enum: ["client", "admin", "user"],
+      default: "user",
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    passwordChangedAt: Date,
+    passwordResetToken: String,
+    passwordResetExpires: Date,
   },
-  password: {
-    type: String,
-    required: [true, "a user must have a password"],
-  },
-  role: {
-    type: String,
-    enum: ["client", "admin", "user"],
-    default: "user",
-  },
-});
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password") || this.isNew) return next();
@@ -58,6 +76,21 @@ userSchema.methods.correctPassword = async function (
 
 //   return resetToken;
 // };
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.get("passwordChangedAt")) {
+    const passwordChangedAt: Date = this.get("passwordChangedAt");
+    const changedTimestamp = parseInt(
+      (passwordChangedAt.getTime() / 1000).toString(),
+      10
+    );
+
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  // False means NOT changed
+  return false;
+};
 
 const User = mongoose.model<UserDoc, UserModel>("User", userSchema);
 
