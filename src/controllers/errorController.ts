@@ -32,6 +32,7 @@ const sendErrorProd = (err: any, req: Request, res: Response) => {
 
   if (req.originalUrl.startsWith("/api")) {
     if (err.isOperational) {
+      console.log("reached here");
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
@@ -39,24 +40,16 @@ const sendErrorProd = (err: any, req: Request, res: Response) => {
 
       // Programming or other unknown error: don't leak error details
     }
-    //rendered website
-    if (err.isOperational) {
-      return res.status(err.statusCode).render("error", {
-        title: "Something went wrong",
-        msg: err.message,
-      });
-
-      // Programming or other unknown error: don't leak error details
-    }
-    // 1) Log error
+   
     console.error("ERROR 💥", err);
 
     // 2) Send generic message
-    return res.status(err.statusCode).render("error", {
-      title: "Something went wrong",
-      msg: "please try again later",
-    });
   }
+
+  return res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message,
+  });
 };
 export const errorHandler = (
   err: any,

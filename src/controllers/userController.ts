@@ -60,7 +60,7 @@ export const signup = catchAsync(
   }
 );
 
-exports.protect = catchAsync(
+export const protect = catchAsync(
   async (req: any, res: Response, next: NextFunction) => {
     // 1) Getting token and check of it's there
     let token;
