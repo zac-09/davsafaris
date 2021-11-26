@@ -51,3 +51,18 @@ export const getTour = catchAsync(
     });
   }
 );
+
+export const getToursByCountry = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const country = req.params.country.toLowerCase();
+
+    const tours = await Tour.find({ country: country });
+    if (!tours || tours.length < 1)
+      return next(new AppError("No tours found in that country", 404));
+
+    res.status(200).json({
+      status: "success",
+      tours,
+    });
+  }
+);

@@ -30,6 +30,11 @@ const tourSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    country: {
+      type: String,
+      required: [true, "A tour must have a country where its happening"],
+      trim: true,
+    },
     description: {
       type: String,
       required: [true, "A tour must have a description"],
@@ -109,4 +114,3 @@ tourSchema.pre("save", function (next) {
 const Tour = mongoose.model<TourDoc, TourModel>("Tour", tourSchema);
 
 export { Tour };
- 
