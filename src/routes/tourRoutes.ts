@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createTour,
+  deleteTour,
   editTour,
   getAllTours,
   getTour,
@@ -9,10 +10,11 @@ import {
 const router = express.Router();
 
 router.post("/create", createTour);
-router.patch("/edit/:id", editTour);
+router.patch("/updateTour/:id", editTour);
 router.get("/getAllTours", getAllTours);
 router.get("/getAllTours/:country", getToursByCountry);
 
+router.delete("/deleteTour/:id", deleteTour);
 router.get("/:id", getTour);
 
 export { router as tourRouter };

@@ -51,9 +51,10 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password") || this.isNew) return next();
-  const hashed = hash(this.get("password"), 12);
-  this.set("password", hashed);
+  
+  if (!this.isModified("password")) return next();
+  const hashed = await  hash(this.get("password"), 12); 
+  this.set("password", hashed); 
 });
 userSchema.methods.correctPassword = async function (
   candidatePassword,

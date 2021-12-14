@@ -10,7 +10,7 @@ export const createTour = catchAsync(
       status: "success",
       tour,
     });
-  }
+  },
 );
 
 export const editTour = catchAsync(
@@ -26,7 +26,7 @@ export const editTour = catchAsync(
       status: "ok",
       tour,
     });
-  }
+  },
 );
 
 export const getAllTours = catchAsync(
@@ -37,7 +37,7 @@ export const getAllTours = catchAsync(
       status: "success",
       tours,
     });
-  }
+  },
 );
 export const getTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -49,7 +49,16 @@ export const getTour = catchAsync(
       status: "success",
       tour,
     });
-  }
+  },
+);
+export const deleteTour = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const tour_id = req.params.id;
+
+    const tour = await Tour.findByIdAndDelete(tour_id);
+
+    res.status(204).json({});
+  },
 );
 
 export const getToursByCountry = catchAsync(
@@ -64,5 +73,5 @@ export const getToursByCountry = catchAsync(
       status: "success",
       tours,
     });
-  }
+  },
 );

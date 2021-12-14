@@ -37,10 +37,10 @@ export const login = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const email = req.body.email;
     const password = req.body.password;
-    const user = await User.findOne({
+    const user = await User.findOne({ 
       email,
     }).select("+password");
-    if (!user || !user.correctPassword(password, user.password)) {
+    if (!user || ! await user.correctPassword(password, user.password)) {
       return next(new AppError("Invalid crendetials", 403));
     }
     await createSendToken(user, 200, res);
