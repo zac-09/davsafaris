@@ -10,7 +10,7 @@ export const createTour = catchAsync(
       status: "success",
       tour,
     });
-  },
+  }
 );
 
 export const editTour = catchAsync(
@@ -26,7 +26,7 @@ export const editTour = catchAsync(
       status: "ok",
       tour,
     });
-  },
+  }
 );
 
 export const getAllTours = catchAsync(
@@ -37,19 +37,38 @@ export const getAllTours = catchAsync(
       status: "success",
       tours,
     });
-  },
+  }
 );
 export const getTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const tour_id = req.params.id;
 
     const tour = await Tour.findById(tour_id);
+    if (!tour)
+      return next(
+        new AppError(`tour with: ${tour_id} could not be found`, 404)
+      );
 
     res.status(200).json({
       status: "success",
       tour,
     });
-  },
+  }
+);
+export const getTourByName = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const tourSlug = req.params.slug;
+
+    const tour = await Tour.find({ slug: tourSlug });
+    if (!tour)
+      return next(
+        new AppError(`tour with ${tourSlug} could not be found`, 404)
+      );
+    res.status(200).json({
+      status: "success",
+      tour,
+    });
+  }
 );
 export const deleteTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -58,7 +77,7 @@ export const deleteTour = catchAsync(
     const tour = await Tour.findByIdAndDelete(tour_id);
 
     res.status(204).json({});
-  },
+  }
 );
 
 export const getToursByCountry = catchAsync(
@@ -73,5 +92,5 @@ export const getToursByCountry = catchAsync(
       status: "success",
       tours,
     });
-  },
+  }
 );

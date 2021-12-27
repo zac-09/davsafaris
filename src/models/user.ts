@@ -22,6 +22,7 @@ export interface UserDoc extends mongoose.Document {
 
 const userSchema = new mongoose.Schema(
   {
+    
     email: {
       type: String,
       required: [true, "a user must have an email"],
@@ -30,6 +31,10 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "a user must have a password"],
+    },
+    username: {
+      type: String,
+      required: [true, "a user must have a username"],
     },
     role: {
       type: String,
