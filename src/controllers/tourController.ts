@@ -2,9 +2,17 @@ import { catchAsync } from "../utils/catchAsync";
 import { Request, Response, NextFunction } from "express";
 import { Tour } from "../models/tour";
 import { AppError } from "../utils/error";
+import { uploadImageToStorage } from "./fileController";
 
 export const createTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    let file = req.file;
+    if (file) {
+      const downloadURL = await uploadImageToStorage(file);
+      
+      req.body.imageCover = downloadURL;
+    }
+
     const tour = await Tour.create(req.body);
     res.status(201).json({
       status: "success",

@@ -1,4 +1,5 @@
 import express from "express";
+import { uploadFile } from "../controllers/fileController";
 import {
   createTour,
   deleteTour,
@@ -10,7 +11,7 @@ import {
 } from "../controllers/tourController";
 const router = express.Router();
 
-router.post("/create", createTour);
+router.post("/create",uploadFile, createTour);
 router.patch("/updateTour/:id", editTour);
 router.get("/getAllTours", getAllTours);
 router.get("/getAllTours/:country", getToursByCountry);

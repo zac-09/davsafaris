@@ -14,7 +14,7 @@ export const createReview = catchAsync(
       status: "success",
       review,
     });
-  },
+  }
 );
 
 export const getAllReviews = catchAsync(
@@ -24,7 +24,7 @@ export const getAllReviews = catchAsync(
       status: "success",
       reviews,
     });
-  },
+  }
 );
 
 export const getReview = catchAsync(
@@ -33,7 +33,7 @@ export const getReview = catchAsync(
     const review = await Review.findById(reviewId);
     if (!review) return next(new AppError("review not found", 404));
     res.status(200).json({ status: "success", review });
-  },
+  }
 );
 
 export const updateReview = catchAsync(
@@ -43,14 +43,16 @@ export const updateReview = catchAsync(
       new: true,
       runValidators: true,
     });
-    if (!review)
-    console.log("the review",review)
+    if (!review) {
+    
       return next(new AppError("Review with that id not found", 404));
+    }
+
     res.status(201).json({
       status: "success",
       review,
     });
-  },
+  }
 );
 export const deleteReview = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
@@ -60,5 +62,5 @@ export const deleteReview = catchAsync(
     res.status(204).json({
       status: "success",
     });
-  },
+  }
 );

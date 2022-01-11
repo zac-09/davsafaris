@@ -12,6 +12,7 @@ interface ReviewDocument extends mongoose.Document {
 }
 interface ReviewModel extends mongoose.Model<ReviewDocument> {
   calcAverageRatings(): any;
+  r: ReviewDocument;
 }
 const reviewSchema = new mongoose.Schema(
   {
@@ -42,7 +43,7 @@ const reviewSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  },
+  }
 );
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
@@ -82,15 +83,17 @@ reviewSchema.static("calcAverageRatings", async function (tourId) {
 
 reviewSchema.post("save", function (doc) {
   // this points to current review
-  console.log("this", doc);
+
   doc.constructor.calcAverageRatings(this.get("tour"));
 });
 
 // findByIdAndUpdate
 // findByIdAndDelete
-reviewSchema.pre(/^findOneAnd/, async function (doc: any, next: any) {
+reviewSchema.pre(/^findOneAnd/, async function ( next: any) {
   // doc = await this.findOne();
-  console.log("from pre", await this.updateOne({},await this.findOne()));
+  // console.log("from pre", await this.updateOne({},await this.findOne()));
+  // @ts-ignore: Unreachable code error
+  this.r = await this.findOne();
   next();
 });
 
@@ -103,7 +106,7 @@ reviewSchema.post(/^findOneAnd/, async function (doc, next) {
 
 const Review = mongoose.model<ReviewDocument, ReviewModel>(
   "Review",
-  reviewSchema,
+  reviewSchema
 );
 
 export default Review;
