@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { hash, compare } from "bcryptjs";
+import { randomBytes, createHash } from "crypto";
 interface UserAttributes {
   email: string;
   password: string;
@@ -10,19 +11,21 @@ interface UserModel extends mongoose.Model<UserDoc> {
 }
 export interface UserDoc extends mongoose.Document {
   email: string;
+  first_name: string;
+  last_name: string;
   password: string;
   role: string;
-  correctPassword: Function;
+  correctPassword(current: string, newString: string): any;
   passwordChangedAt: Date;
-  passwordResetToken: String;
-  passwordResetExpires: Date;
+  passwordResetToken: string | undefined;
+  passwordResetExpires: Date | undefined | number;
+  createPasswordResetToken(): any;
   createdAt: Date;
-  changedPasswordAfter: Function;
+  changedPasswordAfter(user: any): any; // eslint-disable-line no-unused-vars
 }
 
 const userSchema = new mongoose.Schema(
   {
-    
     email: {
       type: String,
       required: [true, "a user must have an email"],
@@ -56,10 +59,9 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function (next) {
-  
   if (!this.isModified("password")) return next();
-  const hashed = await  hash(this.get("password"), 12); 
-  this.set("password", hashed); 
+  const hashed = await hash(this.get("password"), 12);
+  this.set("password", hashed);
 });
 userSchema.methods.correctPassword = async function (
   candidatePassword,
@@ -82,6 +84,19 @@ userSchema.methods.correctPassword = async function (
 
 //   return resetToken;
 // };
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = randomBytes(32).toString("hex");
+
+  this.set(
+    "passwordResetToken",
+    createHash("sha256").update(resetToken).digest("hex")
+  );
+
+  this.set("passwordResetExpires", Date.now() + 20 * 60 * 1000);
+
+  return resetToken;
+};
 
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.get("passwordChangedAt")) {

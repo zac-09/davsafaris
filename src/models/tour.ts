@@ -35,6 +35,11 @@ const tourSchema = new mongoose.Schema(
       required: [true, "A tour must have a country where its happening"],
       trim: true,
     },
+    category: {
+      type: String,
+      required: [true, "A tour must have a category where its happening"],
+      
+    },
     description: {
       type: String,
       required: [true, "A tour must have a description"],
