@@ -11,6 +11,7 @@ export const createTour = catchAsync(
       const downloadURL = await uploadImageToStorage(file);
       
       req.body.imageCover = downloadURL;
+      console.log("the body",req.body)
     }
 
     const tour = await Tour.create(req.body);
