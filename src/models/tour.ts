@@ -27,37 +27,31 @@ const tourSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "A tour must have a name"],
-      unique: true,
+      
       trim: true,
     },
     country: {
       type: String,
-      required: [true, "A tour must have a country where its happening"],
+
       trim: true,
     },
     category: {
       type: String,
-      required: [true, "A tour must have a category where its happening"],
-      
     },
     description: {
       type: String,
-      required: [true, "A tour must have a description"],
     },
     summary: {
       type: String,
-      required: [true, "A tour must have a summary"],
     },
     slug: String,
     tourActivities: [String],
     dayActivityDescription: [],
     duration: {
       type: Number,
-      required: [true, "A tour must have a duration"],
     },
     maxGroupSize: {
       type: Number,
-      required: [true, "A tour must have a group size"],
     },
     ratingsQuantity: {
       type: Number,
@@ -65,11 +59,9 @@ const tourSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      required: [true, "A tour must have a price"],
     },
     imageCover: {
       type: String,
-      required: [true, "A tour must have a cover image"],
     },
     images: [String],
     createdAt: {
