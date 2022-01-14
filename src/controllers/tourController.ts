@@ -6,6 +6,10 @@ import { uploadImageToStorage } from "./fileController";
 
 export const createTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    req.body.dayActivityDescription = JSON.parse(req.body.dayActivityDescription);
+    req.body.tourActivities = JSON.parse(req.body.tourActivities);
+    req.body.packageDetails = JSON.parse(req.body.packageDetails);
+
     let file = req.file;
     if (file) {
       const downloadURL = await uploadImageToStorage(file);
@@ -17,10 +21,10 @@ export const createTour = catchAsync(
     const tour = await Tour.create(req.body);
     res.status(201).json({
       status: "success",
-      tour,
-    });
+      tour, 
+    }); 
   }
-);
+); 
 
 export const editTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

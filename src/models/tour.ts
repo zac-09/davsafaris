@@ -71,7 +71,6 @@ const tourSchema = new mongoose.Schema(
     },
     locations: [],
     packageDetails: {
-      type: {},
     },
     ratingsAverage: {
       type: Number,

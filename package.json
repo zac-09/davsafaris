@@ -21,6 +21,7 @@
     "@types/nodemailer": "^6.4.4",
     "@types/pug": "^2.0.6",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.1",
     "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
