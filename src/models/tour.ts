@@ -45,7 +45,7 @@ const tourSchema = new mongoose.Schema(
       type: String,
     },
     slug: String,
-    tourActivities: [String],
+    tourActivities: [],
     dayActivityDescription: [],
     duration: {
       type: Number,
