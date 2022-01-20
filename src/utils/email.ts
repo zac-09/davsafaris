@@ -74,6 +74,7 @@ export class Email {
     }
   }
   async sendPasswordReset(url: string, firstName: string) {
+    console.log("from wmal server",url)
     const html = pug.renderFile(
       `${__dirname}/../views/email/passwordReset.pug`,
       {

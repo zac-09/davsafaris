@@ -183,7 +183,7 @@ export const forgotPassword = catchAsync(
       const resetURL = `${req.protocol}://fidauganda.com/reset-password/${resetToken}`;
       const subject = "Reset Password";
       const message = "Request for password reset";
-
+      console.log("the url is",resetURL)
       await new Email(email, subject, message).sendPasswordReset(
         resetURL,
         user.first_name

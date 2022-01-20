@@ -23,7 +23,6 @@ export const createTour = catchAsync(
       const downloadURL = await uploadImageToStorage(file);
 
       req.body.imageCover = downloadURL;
-      console.log("the body", req.body);
     }
 
     const tour = await Tour.create(req.body);
@@ -37,6 +36,13 @@ export const createTour = catchAsync(
 export const editTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const tour_id = req.params.id;
+    let file = req.file;
+
+    if (file) {
+      const downloadURL = await uploadImageToStorage(file);
+
+      req.body.imageCover = downloadURL;
+    }
     const tour = await Tour.findByIdAndUpdate(tour_id, req.body, {
       new: true,
       runValidators: true,
@@ -112,6 +118,37 @@ export const getToursByCountry = catchAsync(
     res.status(200).json({
       status: "success",
       tours,
+    });
+  }
+);
+
+export const uploadTourImages = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    // @ts-ignore: Unreachable code error
+    const files: File[] = req.files;
+    const tourID = req.params.id;
+    if (!files) return next(new AppError("please attach images ", 400));
+
+    for (let i = 0; i < files.length; i++) {
+      const file: any = files[i];
+      const downlaodURL = await uploadImageToStorage(file);
+      await Tour.findByIdAndUpdate(
+        tourID,
+        {
+          $push: {
+            images: downlaodURL,
+          },
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    }
+    const tour = await Tour.findById(tourID);
+    res.status(200).json({
+      status: "success",
+      tour,
     });
   }
 );
