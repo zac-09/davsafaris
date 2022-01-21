@@ -48,11 +48,17 @@ export class Email {
     });
     await this.sendHtml(html, "Welcome to Fida Uganda Ims");
   }
-  async sendBasicMail(first_name: string, message: string) {
-    const html = pug.renderFile(`${__dirname}/../views/email/basic.pug`, {
-      firstName: first_name,
-      subject: this.subject,
+  async sendBasicMail(
+    first_name: string,
+    message: string,
+    subscriberEmail: string,
+    contact: string
+  ) {
+    const html = pug.renderFile(`${__dirname}/../views/email/info.pug`, {
+      first_name,
       message,
+      subscriberEmail,
+      contact,
     });
     await this.sendHtml(html, this.subject);
   }
@@ -74,7 +80,7 @@ export class Email {
     }
   }
   async sendPasswordReset(url: string, firstName: string) {
-    console.log("from wmal server",url)
+    console.log("from wmal server", url);
     const html = pug.renderFile(
       `${__dirname}/../views/email/passwordReset.pug`,
       {

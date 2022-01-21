@@ -86,7 +86,7 @@ export const getTourByName = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const tourSlug = req.params.slug;
 
-    const tour = await Tour.find({ slug: tourSlug });
+    const tour = await Tour.findOne({ slug: tourSlug });
     if (!tour)
       return next(
         new AppError(`tour with ${tourSlug} could not be found`, 404)
