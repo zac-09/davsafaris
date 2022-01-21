@@ -3,7 +3,7 @@ import { createReview, deleteReview, getAllReviews, getReview, updateReview } fr
 import { protect } from "../controllers/userController";
 const router = express.Router();
 
-router.post("/create", protect,createReview);
+router.post("/create",createReview);
 router.patch("/updateReview/:id", updateReview);
 router.get("/getAllReviews", getAllReviews);
 

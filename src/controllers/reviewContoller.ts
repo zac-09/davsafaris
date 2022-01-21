@@ -9,7 +9,7 @@ export const createReview = catchAsync(
     const tour = await Tour.findById(req.body.tour);
     if (!tour) return next(new AppError("no tour found", 404));
 
-    const review = await Review.create({ ...req.body, user: req.user.id });
+    const review = await Review.create({ ...req.body });
     res.status(201).json({
       status: "success",
       review,
@@ -44,7 +44,6 @@ export const updateReview = catchAsync(
       runValidators: true,
     });
     if (!review) {
-    
       return next(new AppError("Review with that id not found", 404));
     }
 

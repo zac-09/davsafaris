@@ -20,7 +20,19 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: [true, "Review can not be empty!"],
     },
-    rating: {
+    country_of_residence: {
+      type: String,
+      required: [true, "country_of_residence can not be empty!"],
+    },
+    visit_month: {
+      type: String,
+      required: [true, "visit_month can not be empty!"],
+    },
+    visit_year: {
+      type: String,
+      required: [true, "visit_year can not be empty!"],
+    },
+    rating: { 
       type: Number,
       min: 1,
       max: 5,
@@ -34,10 +46,10 @@ const reviewSchema = new mongoose.Schema(
       ref: "Tour",
       required: [true, "Review must belong to a tour."],
     },
-    user: {
-      type: "ObjectId",
-      ref: "User",
-      required: [true, "Review must belong to a user"],
+    user_name : {
+      type: String,
+      required: [true, "Review must belong to a user."],
+
     },
   },
   {
