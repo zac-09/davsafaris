@@ -19,7 +19,13 @@ export const createReview = catchAsync(
 
 export const getAllReviews = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const reviews = await Review.find({});
+    let reviews;
+    const tourId = req.params.id;
+    if (tourId) {
+      reviews = await Review.find({ tour: tourId });
+    } else {
+      reviews = await Review.find({});
+    }
     res.status(200).json({
       status: "success",
       reviews,

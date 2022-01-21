@@ -6,13 +6,18 @@ interface ReviewDocument extends mongoose.Document {
   review: string;
   rating: number;
   createdAt: Date;
-  tour: ObjectId;
+
   user: ObjectId;
   calcAverageRatings(): any;
 }
 interface ReviewModel extends mongoose.Model<ReviewDocument> {
   calcAverageRatings(): any;
   r: ReviewDocument;
+  review: string;
+  rating: number;
+  createdAt: Date;
+
+  user: ObjectId;
 }
 const reviewSchema = new mongoose.Schema(
   {
@@ -32,7 +37,7 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: [true, "visit_year can not be empty!"],
     },
-    rating: { 
+    rating: {
       type: Number,
       min: 1,
       max: 5,
@@ -46,10 +51,9 @@ const reviewSchema = new mongoose.Schema(
       ref: "Tour",
       required: [true, "Review must belong to a tour."],
     },
-    user_name : {
+    user_name: {
       type: String,
       required: [true, "Review must belong to a user."],
-
     },
   },
   {
@@ -101,7 +105,7 @@ reviewSchema.post("save", function (doc) {
 
 // findByIdAndUpdate
 // findByIdAndDelete
-reviewSchema.pre(/^findOneAnd/, async function ( next: any) {
+reviewSchema.pre(/^findOneAnd/, async function (next: any) {
   // doc = await this.findOne();
   // console.log("from pre", await this.updateOne({},await this.findOne()));
   // @ts-ignore: Unreachable code error

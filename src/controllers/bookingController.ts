@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { Booking } from "../models/booking";
 import { Tour } from "../models/tour";
 import { AppError } from "../utils/error";
+import { Email } from "../utils/email";
 import { AuthUserRequest } from "../utils/interfaces";
 
 export const createBooking = catchAsync(
@@ -15,7 +16,17 @@ export const createBooking = catchAsync(
       status: "success",
       booking,
     });
-  },
+    await new Email(
+     process.env.ADMIN_EMAIL,
+      "booking created",
+      "A tour has been booked"
+    ).sendBasicMail(
+      req.body.user_name,
+      `booking has been made for tour:  ${tour.name}`,
+      req.body.email,
+      req.body.contact
+    );
+  }
 );
 export const getBooking = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
@@ -27,7 +38,7 @@ export const getBooking = catchAsync(
       status: "success",
       booking,
     });
-  },
+  }
 );
 export const getAllBookings = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
@@ -37,7 +48,7 @@ export const getAllBookings = catchAsync(
       status: "success",
       bookings,
     });
-  },
+  }
 );
 export const updateBooking = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
@@ -52,7 +63,7 @@ export const updateBooking = catchAsync(
       status: "success",
       booking,
     });
-  },
+  }
 );
 export const deleteBooking = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
@@ -62,5 +73,5 @@ export const deleteBooking = catchAsync(
     res.status(204).json({
       status: "success",
     });
-  },
+  }
 );

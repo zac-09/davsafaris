@@ -18,23 +18,38 @@ export interface BookingDoc extends mongoose.Document {
 const bookingSchema = new mongoose.Schema(
   {
     tour: {
-        type: 'ObjectId',
-        ref: 'Tour',
-        required: [true, 'Booking must belong to a Tour!']
-      },
-      user: {
-        type: 'ObjectId',
-        ref: 'User',
-        required: [true, 'Booking must belong to a User!']
-      },
-      price: {
-        type: Number,
-        require: [true, 'Booking must have a price.']
-      },
-      createdAt: {
-        type: Date,
-        default: Date.now()
-      }
+      type: "ObjectId",
+      ref: "Tour",
+      required: [true, "Booking must belong to a Tour!"],
+    },
+    price: {
+      type: Number,
+      require: [true, "Booking must have a price."],
+    },
+    country_of_residence: {
+      type: String,
+      required: [true, "country_of_residence can not be empty!"],
+    },
+    user_name: {
+      type: String,
+      required: [true, "user_name can not be empty!"],
+    },
+    phone: {
+      type: String,
+      required: [true, "phone can not be empty!"],
+    },
+    email: {
+      type: String,
+      required: [true, "email can not be empty!"],
+    },
+    travel_plans: {
+      type: String,
+      required: [true, "travel plans can not be empty!"],
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -50,7 +65,9 @@ const bookingSchema = new mongoose.Schema(
 //     next();
 //   });
 
-
-const Booking = mongoose.model<BookingDoc, BookingModel>("Booking", bookingSchema);
+const Booking = mongoose.model<BookingDoc, BookingModel>(
+  "Booking",
+  bookingSchema
+);
 
 export { Booking };

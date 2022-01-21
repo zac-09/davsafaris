@@ -10,7 +10,9 @@ import {
   getToursByCountry,
   uploadTourImages,
 } from "../controllers/tourController";
+import { reviewRouter } from "./reviewRoutes";
 const router = express.Router();
+router.use("/:id/reviews", reviewRouter);
 
 router.post("/create",uploadFile, createTour);
 router.patch("/updateTour/:id", uploadFile,editTour);
