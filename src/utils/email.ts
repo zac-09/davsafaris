@@ -52,13 +52,17 @@ export class Email {
     first_name: string,
     message: string,
     subscriberEmail: string,
-    contact: string
+    contact: string,
+    country: string = "",
+    plans:string = ""
   ) {
     const html = pug.renderFile(`${__dirname}/../views/email/info.pug`, {
       first_name,
       message,
       subscriberEmail,
       contact,
+      country,
+      plans
     });
     await this.sendHtml(html, this.subject);
   }

@@ -24,7 +24,10 @@ export const createBooking = catchAsync(
       req.body.user_name,
       `booking has been made for tour:  ${tour.name}`,
       req.body.email,
-      req.body.contact
+      req.body.phone,
+      req.body.country_of_residence,
+      req.body.travel_plans,
+
     );
   }
 );
