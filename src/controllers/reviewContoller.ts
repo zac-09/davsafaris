@@ -21,15 +21,23 @@ export const getAllReviews = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     let reviews;
     const tourId = req.params.id;
+    let tour;
     if (tourId) {
       reviews = await Review.find({ tour: tourId });
+      tour = await Tour.findById(tourId);
+      res.status(200).json({
+        status: "success",
+        reviews,
+        tour,
+      });
+      return;
     } else {
       reviews = await Review.find({});
+      res.status(200).json({
+        status: "success",
+        reviews,
+      });
     }
-    res.status(200).json({
-      status: "success",
-      reviews,
-    });
   }
 );
 
