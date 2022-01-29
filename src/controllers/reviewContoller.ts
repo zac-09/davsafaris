@@ -1,6 +1,7 @@
 import { catchAsync } from "../utils/catchAsync";
 import { Request, Response, NextFunction } from "express";
 import Review from "../models/review";
+import { Email } from "../utils/email";
 import { Tour } from "../models/tour";
 import { AppError } from "../utils/error";
 import { AuthUserRequest } from "../utils/interfaces";
@@ -14,6 +15,27 @@ export const createReview = catchAsync(
       status: "success",
       review,
     });
+    await new Email(
+      process.env.ADMIN_EMAIL,
+      "review made",
+      "A review has been made"
+    ).sendReviewNotification(
+      req.body.user_name,
+      ` ${tour.name}`,
+      req.body.review,
+      req.body.rating,
+      req.body.country_of_residence,
+      req.body.visit_month,
+      req.body.visit_year,
+    );
+    await new Email(
+      req.body.email,
+      "review made",
+      "A review has been made"
+    ).sendReviewInfo(
+      req.body.user_name,
+      ` ${tour.name}`,
+    );
   }
 );
 

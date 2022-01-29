@@ -17,7 +17,7 @@ export const createBooking = catchAsync(
       booking,
     });
     await new Email(
-     process.env.ADMIN_EMAIL,
+      process.env.ADMIN_EMAIL,
       "booking created",
       "A tour has been booked"
     ).sendBasicMail(
@@ -26,8 +26,15 @@ export const createBooking = catchAsync(
       req.body.email,
       req.body.phone,
       req.body.country_of_residence,
-      req.body.travel_plans,
-
+      req.body.travel_plans
+    );
+    await new Email(
+      req.body.email,
+      "booking created",
+      "A tour has been booked"
+    ).sendBookingNotification(
+      ` ${tour.name}`,
+      req.body.user_name
     );
   }
 );
@@ -65,7 +72,7 @@ export const updateBooking = catchAsync(
     res.status(201).json({
       status: "success",
       booking,
-    });
+    }); 
   }
 );
 export const deleteBooking = catchAsync(

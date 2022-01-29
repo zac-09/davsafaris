@@ -59,6 +59,9 @@ export const signup = catchAsync(
     if (user) return next(new AppError("Email already exists", 400));
     const newUser = await User.create(req.body);
     await createSendToken(newUser, 201, res);
+    await new Email(email, "welcome", "welcome to our platform").sendWelcome(
+      newUser.first_name
+    );
   }
 );
 
@@ -183,7 +186,7 @@ export const forgotPassword = catchAsync(
       const resetURL = `${req.protocol}://fidauganda.com/reset-password/${resetToken}`;
       const subject = "Reset Password";
       const message = "Request for password reset";
-      console.log("the url is",resetURL)
+      console.log("the url is", resetURL);
       await new Email(email, subject, message).sendPasswordReset(
         resetURL,
         user.first_name

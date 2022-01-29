@@ -21,7 +21,7 @@ export class Email {
       secure: false,
     });
 
-    this.from = "support@fida.com";
+    this.from = "support@davsafaris.com";
     this.recipients = recipients;
     this.subject = subject;
     this.text = text_message;
@@ -46,7 +46,15 @@ export class Email {
       firstName: first_name,
       subject: this.subject,
     });
-    await this.sendHtml(html, "Welcome to Fida Uganda Ims");
+    await this.sendHtml(html, "Welcome to Davsafaris ");
+  }
+  async sendReviewInfo(first_name: string, tourName: string) {
+    const html = pug.renderFile(`${__dirname}/../views/email/reviewInfo.pug`, {
+      firstName: first_name,
+      subject: this.subject,
+      tourName
+    });
+    await this.sendHtml(html, "Thank you for your review");
   }
   async sendBasicMail(
     first_name: string,
@@ -54,7 +62,7 @@ export class Email {
     subscriberEmail: string,
     contact: string,
     country: string = "",
-    plans:string = ""
+    plans: string = ""
   ) {
     const html = pug.renderFile(`${__dirname}/../views/email/info.pug`, {
       first_name,
@@ -62,8 +70,31 @@ export class Email {
       subscriberEmail,
       contact,
       country,
-      plans
+      plans,
     });
+    await this.sendHtml(html, this.subject);
+  }
+  async sendReviewNotification(
+    first_name: string,
+    tourName: string,
+    review: string,
+    rating: number,
+    country: string = "",
+    month: string = "",
+    year: string = ""
+  ) {
+    const html = pug.renderFile(
+      `${__dirname}/../views/email/reviewNotification.pug`,
+      {
+        first_name,
+        tourName,
+        review,
+        rating,
+        country,
+        month,
+        year,
+      }
+    );
     await this.sendHtml(html, this.subject);
   }
   async sendHtml(html: any, subject: string) {
@@ -94,5 +125,15 @@ export class Email {
       }
     );
     await this.sendHtml(html, "Reset Password");
+  }
+  async sendBookingNotification(tourName: string, firstName: string) {
+    const html = pug.renderFile(
+      `${__dirname}/../views/email/notification.pug`,
+      {
+        firstName: firstName,
+        tourName,
+      }
+    );
+    await this.sendHtml(html, "Booking Received");
   }
 }

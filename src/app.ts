@@ -3,7 +3,7 @@ import "express-async-errors";
 import bodyParser, { json } from "body-parser";
 import { errorHandler } from "./controllers/errorController";
 import { userRouter } from "./routes/userRoutes";
-import { tourRouter } from "./routes/tourRoutes";
+import { tourRouter } from "./routes/tourRoutes"; 
 import { bookingRouter } from "./routes/bookingRoutes";
 import { reviewRouter } from "./routes/reviewRoutes";
 import { postRouter } from "./routes/postRoutes";
@@ -17,7 +17,7 @@ app.use(
     credentials: true,
   })
 );
-
+ 
 app.options(
   "*",
   function (req, res, next) {

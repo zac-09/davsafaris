@@ -6,7 +6,7 @@ import {
   editTour,
   getAllTours,
   getTour,
-  getTourByName,
+  getTourByName,  
   getToursByCountry,
   uploadTourImages,
 } from "../controllers/tourController";

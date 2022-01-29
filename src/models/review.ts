@@ -33,6 +33,10 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: [true, "visit_month can not be empty!"],
     },
+    email: {
+      type: String,
+      required: [true, "email can not be empty!"],
+    },
     visit_year: {
       type: String,
       required: [true, "visit_year can not be empty!"],
