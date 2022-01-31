@@ -49,17 +49,20 @@ export class Email {
     await this.sendHtml(html, "Welcome to Davsafaris ");
   }
   async sendSubscriberNotfication(url: string) {
-    const html = pug.renderFile(`${__dirname}/../views/email/welcomeToNewsLetter.pug`, {
-      url,
-      subject: this.subject,
-    });
+    const html = pug.renderFile(
+      `${__dirname}/../views/email/welcomeToNewsLetter.pug`,
+      {
+        url,
+        subject: this.subject,
+      }
+    );
     await this.sendHtml(html, "Welcome to Davsafaris Newsletter");
   }
   async sendReviewInfo(first_name: string, tourName: string) {
     const html = pug.renderFile(`${__dirname}/../views/email/reviewInfo.pug`, {
       firstName: first_name,
       subject: this.subject,
-      tourName
+      tourName,
     });
     await this.sendHtml(html, "Thank you for your review");
   }
@@ -78,6 +81,20 @@ export class Email {
       contact,
       country,
       plans,
+    });
+    await this.sendHtml(html, this.subject);
+  }
+  async sendContactUs(
+    name: string,
+    message: string,
+    subscriberEmail: string,
+    contact: string
+  ) {
+    const html = pug.renderFile(`${__dirname}/../views/email/contactUs.pug`, {
+      name,
+      message,
+      subscriberEmail,
+      contact,
     });
     await this.sendHtml(html, this.subject);
   }

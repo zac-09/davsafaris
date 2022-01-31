@@ -185,7 +185,7 @@ export const forgotPassword = catchAsync(
     try {
       const resetURL = `${req.protocol}://davsafaris.com/reset-password/${resetToken}`;
       const subject = "Reset Password";
-      const message = "Request for password reset";
+      const message = "Request for password reset"; 
       console.log("the url is", resetURL);
       await new Email(email, subject, message).sendPasswordReset(
         resetURL,

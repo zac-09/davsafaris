@@ -26,6 +26,23 @@ export const createSubscriber = catchAsync(
     });
   }
 );
+export const contactUs = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    await new Email(
+      process.env.ADMIN_EMAIL,
+      "contact us message",
+      req.body.message
+    ).sendContactUs(
+      req.body.name,
+      req.body.message,
+      req.body.email,
+      req.body.contact
+    );
+    res.status(201).json({
+      status: "success",
+    });
+  }
+);
 export const joinNewsLetter = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const subscriber = await Subscriber.create({ ...req.body });
