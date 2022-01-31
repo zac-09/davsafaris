@@ -183,7 +183,7 @@ export const forgotPassword = catchAsync(
     await user.save({ validateBeforeSave: false });
 
     try {
-      const resetURL = `${req.protocol}://fidauganda.com/reset-password/${resetToken}`;
+      const resetURL = `${req.protocol}://davsafaris.com/reset-password/${resetToken}`;
       const subject = "Reset Password";
       const message = "Request for password reset";
       console.log("the url is", resetURL);

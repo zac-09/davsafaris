@@ -19,7 +19,6 @@ const subscriberSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "a subscriber must have an name"],
     },
     email: {
       type: String,

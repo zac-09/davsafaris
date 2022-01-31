@@ -26,6 +26,31 @@ export const createSubscriber = catchAsync(
     });
   }
 );
+export const joinNewsLetter = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    const subscriber = await Subscriber.create({ ...req.body });
+
+    await new Email(
+      req.body.email,
+      "subscriber message",
+      "Thank you for subscribing"
+    ).sendSubscriberNotfication(
+      `https://www.davsafaris.com/api/v1/subscribers/unsubscribe/${req.body.email}`
+    );
+    res.status(201).json({
+      status: "success",
+    });
+  }
+);
+export const unsubscribeNewsLetter = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    const subscriber = await Subscriber.deleteOne({ email: req.params.email });
+
+    res.status(204).json({
+      status: "success",
+    });
+  }
+);
 export const getSubscriber = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const SubscriberId = req.params.id;
