@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { Post } from "../models/post";
 import { AppError } from "../utils/error";
 import { uploadImageToStorage } from "./fileController";
+import slugify from "slugify";
 
 export const createPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -51,6 +52,28 @@ export const editPost = catchAsync(
 export const getAllPosts = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const Posts = await Post.find({});
+
+    res.status(200).json({
+      status: "success",
+      Posts,
+    });
+  }
+);
+export const slugifyPosts = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const Posts = await Post.find({});
+    for (let i = 0; i < Posts.length; i++) {
+      await Post.findByIdAndUpdate(
+        Posts[i]._id,
+        {
+          slug: slugify(Posts[i].name, { lower: true }),
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    }
 
     res.status(200).json({
       status: "success",
@@ -137,7 +160,9 @@ export const getPostByName = catchAsync(
 
     const post = await Post.findOne({ slug: postSlug });
     if (!post)
-      return next(new AppError(`post with ${postSlug} could not be found`, 404));
+      return next(
+        new AppError(`post with ${postSlug} could not be found`, 404)
+      );
     res.status(200).json({
       status: "success",
       post,
