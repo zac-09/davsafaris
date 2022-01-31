@@ -7,11 +7,8 @@ import { uploadImageToStorage } from "./fileController";
 export const createPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.body.post_blocks) {
-      req.body.post_blocks = JSON.parse(
-        req.body.post_blocks
-      );
+      req.body.post_blocks = JSON.parse(req.body.post_blocks);
     }
-  
 
     let file = req.file;
     if (file) {
@@ -77,21 +74,7 @@ export const getPost = catchAsync(
     });
   }
 );
-export const getPostByName = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const PostSlug = req.params.slug;
 
-    const post = await Post.findOne({ slug: PostSlug });
-    if (!post)
-      return next(
-        new AppError(`Post with ${PostSlug} could not be found`, 404)
-      );
-    res.status(200).json({
-      status: "success",
-      post,
-    });
-  }
-);
 export const deletePost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const Post_id = req.params.id;
@@ -144,6 +127,20 @@ export const uploadPostImages = catchAsync(
     res.status(200).json({
       status: "success",
       Post,
+    });
+  }
+);
+
+export const getPostByName = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const postSlug = req.params.slug;
+
+    const post = await Post.findOne({ slug: postSlug });
+    if (!post)
+      return next(new AppError(`post with ${postSlug} could not be found`, 404));
+    res.status(200).json({
+      status: "success",
+      post,
     });
   }
 );

@@ -1,27 +1,28 @@
 import mongoose from "mongoose";
-import { ObjectId } from "mongoose";
+import slugify from "slugify";
+
 interface postAttributes {
   name: string;
   postImage: string;
   post_content: string;
   post_blocks: any[];
+  slug: string;
 }
 
 interface postModel extends mongoose.Model<postDoc> {
   build(attributes: postAttributes): postDoc;
 }
 export interface postDoc extends mongoose.Document {
-    name: string;
-    postImage: string;
-    post_content: string;
-    post_blocks: any[];
+  name: string;
+  postImage: string;
+  post_content: string;
+  post_blocks: any[];
   createdAt: Date;
+  slug: string;
 }
 
 const postSchema = new mongoose.Schema(
   {
-  
-
     postImage: {
       type: String,
     },
@@ -34,6 +35,7 @@ const postSchema = new mongoose.Schema(
       required: [true, "post_content can not be empty!"],
     },
     post_blocks: [],
+    slug: String,
 
     createdAt: {
       type: Date,
@@ -46,6 +48,10 @@ const postSchema = new mongoose.Schema(
   }
 );
 
+postSchema.pre("save", function (next) {
+  this.set("slug", slugify(this.get("name"), { lower: true }));
+  next();
+});
 // postSchema.pre(/^find/, function(next) {
 //     this.populate('user').populate({
 //       path: 'tour',
