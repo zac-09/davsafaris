@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM mhart/alpine-node:12
 
 WORKDIR /app
 COPY package.json .
