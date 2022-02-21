@@ -7,6 +7,10 @@
     "start": "ts-node-dev src/index.ts",
     "test": "jest --watchAll --no-cache"
   },
+  "engines": {
+    "node": "16.13.0",
+    "npm":"8.1.0"
+  },
   "dependencies": {
     "@exposium/common": "^1.0.13",
     "@google-cloud/storage": "^5.17.0",
