@@ -18,7 +18,7 @@ export const createBooking = catchAsync(
     });
     await new Email(
       process.env.ADMIN_EMAIL,
-      "booking created",
+      "booking created!",
       "A tour has been booked"
     ).sendBasicMail(
       req.body.user_name,
