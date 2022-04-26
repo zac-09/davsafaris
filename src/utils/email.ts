@@ -84,6 +84,16 @@ export class Email {
     });
     await this.sendHtml(html, this.subject);
   }
+  async sendSubscriberNotificationToAdmin(
+
+    subscriberEmail: string,
+
+  ) {
+    const html = pug.renderFile(`${__dirname}/../views/email/subscriberNotification.pug`, {
+        subscriberEmail,
+      });
+    await this.sendHtml(html, this.subject);
+  }
   async sendContactUs(
     name: string,
     message: string,

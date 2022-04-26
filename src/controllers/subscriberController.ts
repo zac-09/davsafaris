@@ -13,13 +13,13 @@ export const createSubscriber = catchAsync(
     }
     await new Email(
       process.env.ADMIN_EMAIL,
-      "subscriber message",
-      "message from subscriber"
-    ).sendBasicMail(
+      "Message from lets's talk section",
+      "message from lets Talk section"
+    ).sendContactUs(
       req.body.name,
-      "subscriber message",
+      req.body.message,
       req.body.email,
-      req.body.contact
+      req.body.phone
     );
     res.status(201).json({
       status: "success",
@@ -53,6 +53,13 @@ export const joinNewsLetter = catchAsync(
       "Thank you for subscribing"
     ).sendSubscriberNotfication(
       `https://www.davsafaris.com/api/v1/subscribers/unsubscribe/${req.body.email}`
+    );
+    await new Email(
+      process.env.ADMIN_EMAIL,
+      "subscriber message",
+      "A new subscriber has been added"
+    ).sendSubscriberNotificationToAdmin(
+      req.body.email,
     );
     res.status(201).json({
       status: "success",
