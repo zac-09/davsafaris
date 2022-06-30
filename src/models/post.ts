@@ -35,6 +35,7 @@ const postSchema = new mongoose.Schema(
       required: [true, "post_content can not be empty!"],
     },
     post_blocks: [],
+    key_words: [],
     slug: String,
 
     createdAt: {

@@ -70,6 +70,7 @@ const tourSchema = new mongoose.Schema(
       select: false,
     },
     locations: [],
+    key_words: [],
     packageDetails: {
     },
     ratingsAverage: {
