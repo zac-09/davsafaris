@@ -17,7 +17,7 @@ const startApp = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log("succesfully connected to Mongo");
+    console.log("succesfully connected to Mongo!");
   } catch (err) {
     console.log(`An error occured: ${JSON.stringify(err)}`);
   }
