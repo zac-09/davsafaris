@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("*", (req: Request, res: Response) => {
   res.status(404).json({
-    status: "error end point not found",
+    status: "error end point not found!",
     message: req.originalUrl,
   });
 });
