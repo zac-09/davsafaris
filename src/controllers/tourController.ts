@@ -43,6 +43,17 @@ export const editTour = catchAsync(
 
       req.body.imageCover = downloadURL;
     }
+    if (req.body.dayActivityDescription) {
+      req.body.dayActivityDescription = JSON.parse(
+        req.body.dayActivityDescription
+      );
+    }
+    if (req.body.tourActivities) {
+      req.body.tourActivities = JSON.parse(req.body.tourActivities);
+    }
+    if (req.body.packageDetails) {
+      req.body.packageDetails = JSON.parse(req.body.packageDetails);
+    }
     const tour = await Tour.findByIdAndUpdate(tour_id, req.body, {
       new: true,
       runValidators: true,
