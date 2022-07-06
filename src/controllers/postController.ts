@@ -32,7 +32,12 @@ export const editPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const Post_id = req.params.id;
     let file = req.file;
-
+    if (req.body.key_words) {
+      req.body.key_words = JSON.parse(req.body.key_words);
+    }
+    if (req.body.post_blocks) {
+      req.body.post_blocks = JSON.parse(req.body.post_blocks);
+    }
     if (file) {
       const downloadURL = await uploadImageToStorage(file);
 

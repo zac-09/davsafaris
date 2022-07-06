@@ -41,7 +41,9 @@ export const editTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const tour_id = req.params.id;
     let file = req.file;
-
+    if (req.body.key_words) {
+      req.body.key_words = JSON.parse(req.body.key_words);
+    }
     if (file) {
       const downloadURL = await uploadImageToStorage(file);
 
