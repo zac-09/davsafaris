@@ -10,7 +10,9 @@ export const createPost = catchAsync(
     if (req.body.post_blocks) {
       req.body.post_blocks = JSON.parse(req.body.post_blocks);
     }
-
+    if (req.body.key_words) {
+      req.body.key_words = JSON.parse(req.body.key_words);
+    }
     let file = req.file;
     if (file) {
       const downloadURL = await uploadImageToStorage(file);

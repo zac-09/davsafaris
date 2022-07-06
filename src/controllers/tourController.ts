@@ -14,6 +14,9 @@ export const createTour = catchAsync(
     if (req.body.tourActivities) {
       req.body.tourActivities = JSON.parse(req.body.tourActivities);
     }
+    if (req.body.key_words) {
+      req.body.key_words = JSON.parse(req.body.key_words);
+    }
     if (req.body.packageDetails) {
       req.body.packageDetails = JSON.parse(req.body.packageDetails);
     }
