@@ -22,7 +22,7 @@ export interface postDoc extends mongoose.Document {
   slug: string;
   key_words: any[];
 
-}
+}  
 
 const postSchema = new mongoose.Schema(
   {

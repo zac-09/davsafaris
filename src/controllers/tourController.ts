@@ -31,7 +31,7 @@ export const createTour = catchAsync(
     }
 
     const tour = await Tour.create(req.body);
-    await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(tour.name,req.body.key_words.join(","));
+    await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(`tour: ${tour.name}`,req.body.key_words.join(","));
 
     res.status(201).json({
       status: "success",
@@ -78,8 +78,8 @@ export const editTour = catchAsync(
       runValidators: true,
     });
     if(new_key_words.length>0){
-    await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(tour!.name,new_key_words.join(","));
-
+    await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(`tour: ${tour!.name}`,new_key_words.join(","));
+ 
     }
     if (!tour) return next(new AppError("tour not found", 404));
 

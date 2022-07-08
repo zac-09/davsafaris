@@ -22,7 +22,7 @@ export const createPost = catchAsync(
     }
 
     const post = await Post.create(req.body);
-    await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(post.name,req.body.key_words.join(","));
+    await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(`post: ${post.name}`,req.body.key_words.join(","));
     
     res.status(201).json({
       status: "success",
@@ -61,6 +61,10 @@ export const editPost = catchAsync(
           new_key_words.push(el);
         } 
       })}
+      if(new_key_words.length>0){
+        await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(`post: ${post!.name}`,req.body.key_words.join(","));
+
+      }
     if (!post) return next(new AppError("Post not found", 404));
 
     res.status(200).json({
