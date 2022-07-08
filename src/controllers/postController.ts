@@ -22,7 +22,7 @@ export const createPost = catchAsync(
     }
 
     const post = await Post.create(req.body);
-    await new Email(process.env.ADMIN_EMAIL, "SEO Optimization","SEO submission").sendSEO(post.name,req.body.key_words.join(","));
+    await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(post.name,req.body.key_words.join(","));
     
     res.status(201).json({
       status: "success",
