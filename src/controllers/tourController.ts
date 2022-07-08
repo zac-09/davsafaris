@@ -7,7 +7,6 @@ import { Email } from "../utils/email";
 
 export const createTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("keyworsds",req.body )
     if (req.body.dayActivityDescription) {
       req.body.dayActivityDescription = JSON.parse(
         req.body.dayActivityDescription

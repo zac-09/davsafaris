@@ -46,15 +46,15 @@ export const editPost = catchAsync(
 
       req.body.postImage = downloadURL;
     }
+    const oldPost = await Post.findById(Post_id);
+
     const post = await Post.findByIdAndUpdate(Post_id, req.body, {
       new: true,
       runValidators: true,
     });
-    const oldPost = await Post.findById(Post_id);
     const new_key_words: String[] = [];
 
     if(req.body.key_words){
-     
       req.body.key_words.map((el:any)=>{
         const isContained  = oldPost!.key_words.find(el2=>el2.toLowerCase()===el.toLowerCase());
         if(!isContained){
@@ -62,9 +62,11 @@ export const editPost = catchAsync(
         } 
       })}
       if(new_key_words.length>0){
+
         await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(`post: ${post!.name}`,req.body.key_words.join(","));
 
       }
+   
     if (!post) return next(new AppError("Post not found", 404));
 
     res.status(200).json({
