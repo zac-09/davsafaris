@@ -63,7 +63,7 @@ export const editPost = catchAsync(
       })}
       if(new_key_words.length>0){
 
-        await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(`post: ${post!.name}`,req.body.key_words.join(","));
+        await new Email(process.env.SEO_EMAIL, "SEO Optimization","SEO submission").sendSEO(`post: ${post!.name}`,new_key_words.join(","));
 
       }
    
