@@ -14,6 +14,7 @@ interface TourDoc extends mongoose.Document {
   price: number;
   imageCover: string;
   images: [String];
+  key_words: [String];
   createdAt: Date;
   locations: [string];
   packageDetails: {};

@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { Tour } from "../models/tour";
 import { AppError } from "../utils/error";
 import { uploadImageToStorage } from "./fileController";
+import { Email } from "../utils/email";
 
 export const createTour = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -30,6 +31,8 @@ export const createTour = catchAsync(
     }
 
     const tour = await Tour.create(req.body);
+    await new Email(process.env.ADMIN_EMAIL, "SEO Optimization","SEO submission").sendSEO(tour.name,req.body.key_words.join(","));
+
     res.status(201).json({
       status: "success",
       tour,
@@ -59,11 +62,25 @@ export const editTour = catchAsync(
     }
     if (req.body.packageDetails) {
       req.body.packageDetails = JSON.parse(req.body.packageDetails);
-    }
+    }  
+    const oldTour = await Tour.findById(tour_id);
+    const new_key_words: String[] = [];
+    if(req.body.key_words){
+     
+    req.body.key_words.map((el:any)=>{
+      const isContained  = oldTour!.key_words.find(el2=>el2.toLowerCase()===el.toLowerCase());
+      if(!isContained){
+        new_key_words.push(el);
+      }
+    })}
     const tour = await Tour.findByIdAndUpdate(tour_id, req.body, {
       new: true,
       runValidators: true,
     });
+    if(new_key_words.length>0){
+    await new Email(process.env.ADMIN_EMAIL, "SEO Optimization","SEO submission").sendSEO(tour!.name,new_key_words.join(","));
+
+    }
     if (!tour) return next(new AppError("tour not found", 404));
 
     res.status(200).json({

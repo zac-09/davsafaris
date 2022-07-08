@@ -4,6 +4,7 @@ import { Post } from "../models/post";
 import { AppError } from "../utils/error";
 import { uploadImageToStorage } from "./fileController";
 import slugify from "slugify";
+import { Email } from "../utils/email";
 
 export const createPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -21,6 +22,8 @@ export const createPost = catchAsync(
     }
 
     const post = await Post.create(req.body);
+    await new Email(process.env.ADMIN_EMAIL, "SEO Optimization","SEO submission").sendSEO(post.name,req.body.key_words.join(","));
+    
     res.status(201).json({
       status: "success",
       post,
@@ -47,6 +50,17 @@ export const editPost = catchAsync(
       new: true,
       runValidators: true,
     });
+    const oldPost = await Post.findById(Post_id);
+    const new_key_words: String[] = [];
+
+    if(req.body.key_words){
+     
+      req.body.key_words.map((el:any)=>{
+        const isContained  = oldPost!.key_words.find(el2=>el2.toLowerCase()===el.toLowerCase());
+        if(!isContained){
+          new_key_words.push(el);
+        } 
+      })}
     if (!post) return next(new AppError("Post not found", 404));
 
     res.status(200).json({

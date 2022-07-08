@@ -48,6 +48,13 @@ export class Email {
     });
     await this.sendHtml(html, "Welcome to Davsafaris ");
   }
+  async sendSEO(tour: string,key_words: string) {
+    const html = pug.renderFile(`${__dirname}/../views/email/seo.pug`, {
+      tour,
+      keywords: key_words,
+    });
+    await this.sendHtml(html, "SEO submission");
+  }
   async sendSubscriberNotfication(url: string) {
     const html = pug.renderFile(
       `${__dirname}/../views/email/welcomeToNewsLetter.pug`,

@@ -6,6 +6,7 @@ interface postAttributes {
   postImage: string;
   post_content: string;
   post_blocks: any[];
+  key_words: any[];
   slug: string;
 }
 
@@ -19,6 +20,8 @@ export interface postDoc extends mongoose.Document {
   post_blocks: any[];
   createdAt: Date;
   slug: string;
+  key_words: any[];
+
 }
 
 const postSchema = new mongoose.Schema(
