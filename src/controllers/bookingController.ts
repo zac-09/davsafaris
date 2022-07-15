@@ -10,7 +10,7 @@ export const createBooking = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const tour = await Tour.findById(req.body.tour);
     if (!tour) return next(new AppError("no tour found", 404));
-    const booking = await Booking.create({ ...req.body });
+    const booking = await Booking.create({ ...req.body,num_travellers:req.body.travellers });
 
     res.status(201).json({
       status: "success",
@@ -26,7 +26,8 @@ export const createBooking = catchAsync(
       req.body.email,
       req.body.phone,
       req.body.country_of_residence,
-      req.body.travel_plans
+      req.body.travel_plans,
+      req.body.travellers 
     );
     await new Email(
       req.body.email,

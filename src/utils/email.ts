@@ -79,7 +79,8 @@ export class Email {
     subscriberEmail: string,
     contact: string,
     country: string = "",
-    plans: string = ""
+    plans: string = "",
+    num_travellers  = "",
   ) {
     const html = pug.renderFile(`${__dirname}/../views/email/info.pug`, {
       first_name,
@@ -88,6 +89,7 @@ export class Email {
       contact,
       country,
       plans,
+      num_travellers
     });
     await this.sendHtml(html, this.subject);
   }
@@ -105,13 +107,15 @@ export class Email {
     name: string,
     message: string,
     subscriberEmail: string,
-    contact: string
+    contact: string,
+    travellers = ""
   ) {
     const html = pug.renderFile(`${__dirname}/../views/email/contactUs.pug`, {
       name,
       message,
       subscriberEmail,
       contact,
+      travellers
     });
     await this.sendHtml(html, this.subject);
   }

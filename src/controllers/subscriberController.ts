@@ -36,7 +36,9 @@ export const contactUs = catchAsync(
       req.body.name,
       req.body.message,
       req.body.email,
-      req.body.contact
+      req.body.contact,
+      req.body.travellers 
+
     );
     res.status(201).json({
       status: "success",

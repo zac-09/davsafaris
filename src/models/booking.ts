@@ -12,6 +12,7 @@ export interface BookingDoc extends mongoose.Document {
   tour: ObjectId;
   User: ObjectId;
   price: number;
+  num_travellers: number;
   createdAt: Date;
 }
 
@@ -24,7 +25,11 @@ const bookingSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      require: [true, "Booking must have a price."],
+      require: [true, "Booking must have a price."],},
+
+      num_travellers: {
+      type: Number,
+
     },
     country_of_residence: {
       type: String,
