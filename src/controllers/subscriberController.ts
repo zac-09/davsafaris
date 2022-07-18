@@ -19,7 +19,8 @@ export const createSubscriber = catchAsync(
       req.body.name,
       req.body.message,
       req.body.email,
-      req.body.phone
+      req.body.phone,
+      req.body.travellers 
     );
     res.status(201).json({
       status: "success",
